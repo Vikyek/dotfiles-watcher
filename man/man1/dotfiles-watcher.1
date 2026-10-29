@@ -1,0 +1,42 @@
+.TH DOTFILES-WATCHER 1 "2026-10-29" "1.0.0" "dotfiles-watcher manual"
+.SH NAME
+dotfiles-watcher \- watch and auto-sync a bare-repo dotfiles setup
+.SH SYNOPSIS
+.B dotfiles-watcher
+.SH DESCRIPTION
+.B dotfiles-watcher
+monitors all files tracked by the bare git repository at
+.I ~/.cfg/
+using
+.BR entr (1).
+When any tracked file changes, it invokes
+.B dotfiles-sync
+which stages changes, generates an AI commit message via
+.BR gemini (1),
+and pushes to
+.IR origin/main .
+.PP
+The watcher automatically restarts when the tracked file set changes
+(new files added to the repo).
+.SH FILES
+.TP
+.I ~/.cfg/
+Bare git repository tracking dotfiles.
+.TP
+.I /usr/local/bin/dotfiles-watcher
+Watcher binary.
+.TP
+.I /usr/local/bin/dotfiles-sync
+Sync binary (can be run manually).
+.TP
+.I ~/.config/systemd/user/dotfiles-watcher.service
+Systemd user service unit.
+.SH DEPENDENCIES
+.BR entr (1),
+.BR gemini (1),
+.BR git (1)
+.SH SEE ALSO
+.BR dotfiles-sync (1),
+.BR entr (1),
+.BR git (1),
+.BR systemctl (1)

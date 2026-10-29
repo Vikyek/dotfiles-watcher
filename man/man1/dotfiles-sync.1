@@ -1,0 +1,33 @@
+.TH DOTFILES-SYNC 1 "2026-10-29" "1.0.0" "dotfiles-watcher manual"
+.SH NAME
+dotfiles-sync \- stage, AI-commit, and push dotfiles bare repo changes
+.SH SYNOPSIS
+.B dotfiles-sync
+.SH DESCRIPTION
+.B dotfiles-sync
+stages all changes to files tracked by the bare git repository at
+.IR ~/.cfg/ ,
+generates a concise commit message using
+.BR gemini (1),
+and pushes to
+.IR origin/main .
+Falls back to a timestamp commit message if
+.B gemini
+is unavailable or returns empty output.
+.PP
+Can be run manually at any time as well as being invoked automatically by
+.BR dotfiles-watcher (1).
+.SH FILES
+.TP
+.I ~/.cfg/
+Bare git repository.
+.TP
+.I ~/.config/systemd/user/
+Auto-scanned for new
+.I *.service
+and
+.I *.timer
+files to stage.
+.SH SEE ALSO
+.BR dotfiles-watcher (1),
+.BR git (1)

@@ -1,0 +1,14 @@
+[Unit]
+Description=Watch dotfiles bare repo for changes and auto-sync
+Documentation=https://github.com/Vikyek/dotfiles-watcher
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/dotfiles-watcher
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target
