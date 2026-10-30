@@ -9,11 +9,18 @@ GIT_CFG="git --git-dir=${HOME}/.cfg/ --work-tree=${HOME}"
 
 log() { echo "[dotfiles-sync] $*"; }
 
-# 1. Stage new systemd user units
-log "Scanning for new systemd units..."
+# 1. Stage new systemd user units and desktop configs
+log "Scanning for new systemd units and desktop configs..."
 while IFS= read -r unit; do
-    $GIT_CFG add "$unit"
+    $GIT_CFG add "$unit" 2>/dev/null || true
 done < <(find ~/.config/systemd/user/ -maxdepth 1 \( -name "*.service" -o -name "*.timer" \) 2>/dev/null)
+
+# Auto-stage key UI/desktop environment dirs
+for d in caelestia kitty waybar gtk-3.0 gtk-4.0; do
+    if [ -d "${HOME}/.config/$d" ]; then
+        $GIT_CFG add "${HOME}/.config/$d" 2>/dev/null || true
+    fi
+done
 
 # 2. Stage changes to already-tracked files
 $GIT_CFG ls-files | while IFS= read -r f; do
